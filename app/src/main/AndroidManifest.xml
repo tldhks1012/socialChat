@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+          package="com.kkkhhh.socialblinddate">
+
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.VIBRATE"/>
+    <uses-permission android:name="android.permission.WAKE_LOCK"/>
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <meta-data
+            android:name="com.kkkhhh.socialblinddate.Etc.MyGlideModule"
+            android:value="GlideModule" />
+        <activity android:name=".Activity.MainAct">
+        </activity>
+        <activity
+            android:name=".Activity.WelcomeAct"
+            android:theme="@style/StartTheme">
+        </activity>
+        <activity android:name=".Activity.SignAct">
+        </activity>
+        <activity
+            android:name=".Activity.StartAct"
+            android:theme="@style/StartTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
+        <activity android:name=".Activity.SignUserInfoAct">
+        </activity>
+        <activity android:name=".Activity.LoginAct">
+        </activity>
+        <activity android:name=".Activity.SignProfileAct">
+        </activity>
+        <activity android:name=".Activity.SignImageAct">
+        </activity>
+        <activity android:name=".Activity.PostWriterAct">
+        </activity>
+        <activity android:name=".Activity.DetailPostAct">
+        </activity>
+        <activity android:name=".Activity.ChatAct">
+        </activity>
+        <activity android:name="com.soundcloud.android.crop.CropImageActivity"/>
+
+        <service android:name=".Fcm.MyFirebaseMessagingService">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+            </intent-filter>
+        </service>
+        <service android:name=".Fcm.MyFirebaseInstanceIDService">
+            <intent-filter>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
+            </intent-filter>
+        </service>
+
+        <activity android:name=".Activity.FilterLocalActivity">
+        </activity>
+        <receiver android:name=".Etc.BroadcastD"/>
+
+        <activity android:name=".Activity.ProfileActivity">
+        </activity>
+        <activity android:name=".Activity.ChangeProfileImg">
+        </activity>
+    </application>
+
+</manifest>
