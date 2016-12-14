@@ -11,6 +11,7 @@ public class UserValue {
     public static String USER_AGE="USER_AGE";
     public static String USER_GENDER="USER_GENDER";
     public static String USER_LOCAL="USER_LOCAL";
+    public static String USER_PROFILE_IMG="USER_PROFILE_IMG";
     public static String USER_IMG1="USER_IMG1";
     public static String USER_IMG2="USER_IMG2";
     public static String USER_IMG3="USER_IMG3";
@@ -18,5 +19,6 @@ public class UserValue {
     public static String USER_IMG5="USER_IMG5";
     public static String USER_IMG6="USER_IMG6";
     public static String USER_COIN="USER_COIN";
+    public static String PROFILE_IMAGE_UPDATE_STAMP="PROFILE_IMAGE_UPDATE_STAMP";
     public static String USER_TOKEN="USER_TOKEN";
 }

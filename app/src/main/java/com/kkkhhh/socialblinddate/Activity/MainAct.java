@@ -136,10 +136,10 @@ public class MainAct extends AppCompatActivity {
             startActivity(intent);
             finish();
         } else {
-            SharedPreferences preferences = getSharedPreferences(UserValue.SHARED_NAME, MODE_PRIVATE);
+            final SharedPreferences preferences = getSharedPreferences(UserValue.SHARED_NAME, MODE_PRIVATE);
             String userID = preferences.getString(UserValue.USER_ID, null);
             if (userID == null) {
-                databaseReference.child("users").child(uID).child("check").addValueEventListener(new ValueEventListener() {
+                databaseReference.child("users").child(uID).child("_check").addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         int value = dataSnapshot.getValue(Integer.class);
@@ -148,10 +148,6 @@ public class MainAct extends AppCompatActivity {
                             startActivity(intent);
                             finish();
                         } else if (value == 2) {
-                            Intent intent = new Intent(MainAct.this, SignImageAct.class);
-                            startActivity(intent);
-                            finish();
-                        } else if (value == 3) {
                             _userValue();
                         }
                     }
@@ -177,7 +173,7 @@ public class MainAct extends AppCompatActivity {
                 if (dataSnapshot != null) {
                     UserModel userModel = dataSnapshot.getValue(UserModel.class);
                     String refreshedToken = FirebaseInstanceId.getInstance().getToken();
-                    databaseReference.child("users").child(uID).child("tokenValue").setValue(refreshedToken);
+                    databaseReference.child("users").child(uID).child("_tokenValue").setValue(refreshedToken);
                     SharedPreferences preferences = getSharedPreferences(UserValue.SHARED_NAME, MODE_PRIVATE);
                     SharedPreferences.Editor editor = preferences.edit();
                     editor.putString(UserValue.USER_ID, userModel._uID);
@@ -185,14 +181,10 @@ public class MainAct extends AppCompatActivity {
                     editor.putString(UserValue.USER_AGE, userModel._uAge);
                     editor.putString(UserValue.USER_GENDER, userModel._uGender);
                     editor.putString(UserValue.USER_LOCAL, userModel._uLocal);
-                    editor.putString(UserValue.USER_IMG1, userModel._uImage1);
-                    editor.putString(UserValue.USER_IMG2, userModel._uImage2);
-                    editor.putString(UserValue.USER_IMG3, userModel._uImage3);
-                    editor.putString(UserValue.USER_IMG4, userModel._uImage4);
-                    editor.putString(UserValue.USER_IMG5, userModel._uImage5);
-                    editor.putString(UserValue.USER_IMG6, userModel._uImage6);
+                    editor.putString(UserValue.USER_PROFILE_IMG, userModel._profileImage);
                     editor.putInt(UserValue.USER_COIN,userModel._uCoin);
                     editor.putString(UserValue.USER_TOKEN,refreshedToken);
+                    editor.putString(UserValue.PROFILE_IMAGE_UPDATE_STAMP,userModel._updateStamp);
                     editor.commit();
                     init();
                 }

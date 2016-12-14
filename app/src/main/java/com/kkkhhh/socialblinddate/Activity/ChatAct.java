@@ -1,15 +1,16 @@
 package com.kkkhhh.socialblinddate.Activity;
 
 import android.content.DialogInterface;
+import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.FrameLayout;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -31,13 +32,11 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.kkkhhh.socialblinddate.Adapter.ChatAdapter;
-import com.kkkhhh.socialblinddate.Adapter.PostAdapter;
 import com.kkkhhh.socialblinddate.Etc.CustomBitmapPool;
 import com.kkkhhh.socialblinddate.Model.ChatList;
 import com.kkkhhh.socialblinddate.Model.ChatModel;
 import com.kkkhhh.socialblinddate.Model.UserModel;
 import com.kkkhhh.socialblinddate.R;
-import android.widget.ImageButton;
 import com.rey.material.widget.ProgressView;
 
 import java.text.SimpleDateFormat;
@@ -170,7 +169,7 @@ public class ChatAct extends AppCompatActivity {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 final UserModel userModel = dataSnapshot.getValue(UserModel.class);
-                mGlideRequestManager.using(new FirebaseImageLoader()).load(storageReference.child(userModel._uImage1)).signature(new StringSignature(userModel.updateStamp)).placeholder(R.drawable.ic_action_like_white)
+                mGlideRequestManager.using(new FirebaseImageLoader()).load(storageReference.child(userModel._profileImage)).signature(new StringSignature(userModel._updateStamp)).placeholder(R.drawable.ic_action_like_white)
                         .bitmapTransform(new CropCircleTransformation(new CustomBitmapPool()))
                         .listener(new RequestListener<StorageReference, GlideDrawable>() {
                             @Override

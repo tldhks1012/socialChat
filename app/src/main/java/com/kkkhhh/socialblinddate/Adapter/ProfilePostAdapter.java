@@ -2,6 +2,7 @@ package com.kkkhhh.socialblinddate.Adapter;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -36,6 +37,7 @@ import com.kkkhhh.socialblinddate.Activity.DetailPostAct;
 import com.kkkhhh.socialblinddate.Activity.ProfileActivity;
 import com.kkkhhh.socialblinddate.Etc.CustomBitmapPool;
 import com.kkkhhh.socialblinddate.Etc.TimeMaximum;
+import com.kkkhhh.socialblinddate.Etc.UserValue;
 import com.kkkhhh.socialblinddate.Model.LikeModel;
 import com.kkkhhh.socialblinddate.Model.Post;
 import com.kkkhhh.socialblinddate.Model.UserModel;
@@ -48,6 +50,8 @@ import java.util.Date;
 import java.util.List;
 
 import jp.wasabeef.glide.transformations.CropCircleTransformation;
+
+import static android.content.Context.MODE_PRIVATE;
 
 /**
  * Created by Dev1 on 2016-11-09.
@@ -108,9 +112,7 @@ public class ProfilePostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
        else if (holder instanceof PostHolder) {
         final Post post = postList.get(position-1);
         if (post.userProfileImg != null) {
-            ((PostHolder) holder).cardUserGender.setText(post.gender);
-            ((PostHolder) holder).cardUserAge.setText(post.age);
-            ((PostHolder) holder).cardUserLocal.setText(post.local);
+            ((PostHolder) holder).cardUserinfo.setText("( "+post.gender+" "+post.local+" "+post.age+" )");
             ((PostHolder) holder).cardPostTitle.setText(post.title);
 
 
@@ -121,11 +123,29 @@ public class ProfilePostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                         UserModel userModel = dataSnapshot.getValue(UserModel.class);
                         ((PostHolder) holder).cardNickname.setText(userModel._uNickname);
 
-                        mGlideRequestManager.using(new FirebaseImageLoader()).load(storageReference.child(userModel._uImage1))
-                                .signature(new StringSignature(userModel.updateStamp))
-                                .placeholder(R.drawable.ic_action_like_white)
-                                .bitmapTransform(new CropCircleTransformation(new CustomBitmapPool()))
-                                .into(((PostHolder) holder).cardUserImg);
+                        SharedPreferences preferences = activity.getSharedPreferences(UserValue.SHARED_NAME, MODE_PRIVATE);
+                        String profileImageUpdateStamp = preferences.getString(UserValue.PROFILE_IMAGE_UPDATE_STAMP, null);
+                        if(profileImageUpdateStamp!=null) {
+                            mGlideRequestManager.using(new FirebaseImageLoader()).load(storageReference.child(post.userProfileImg))
+                                    .signature(new StringSignature(profileImageUpdateStamp))
+                                    .placeholder(R.drawable.ic_action_loading_img)
+                                    .bitmapTransform(new CropCircleTransformation(new CustomBitmapPool()))
+                                    .listener(new RequestListener<StorageReference, GlideDrawable>() {
+                                        @Override
+                                        public boolean onException(Exception e, StorageReference model, Target<GlideDrawable> target, boolean isFirstResource) {
+                                            progressView.setVisibility(View.INVISIBLE);
+                                            recyclerView.setVisibility(View.VISIBLE);
+                                            return false;
+                                        }
+
+                                        @Override
+                                        public boolean onResourceReady(GlideDrawable resource, StorageReference model, Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
+                                            progressView.setVisibility(View.INVISIBLE);
+                                            recyclerView.setVisibility(View.VISIBLE);
+                                            return false;
+                                        }
+                                    }).into(((ProfilePostAdapter.PostHolder) holder).cardUserImg);
+                        }
                     }
                 }
 
@@ -212,9 +232,7 @@ public class ProfilePostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     public static class PostHolder extends RecyclerView.ViewHolder{
         private ImageView cardUserImg;
 
-        private TextView cardUserGender;
-        private TextView cardUserAge;
-        private TextView cardUserLocal;
+        private TextView cardUserinfo;
         private TextView cardPostTitle;
         private CardView cardView;
         private TextView cardTimeStamp;
@@ -224,9 +242,7 @@ public class ProfilePostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         public PostHolder(View itemView) {
             super(itemView);
             cardUserImg =(ImageView)itemView.findViewById(R.id.card_img);
-            cardUserGender=(TextView)itemView.findViewById(R.id.card_gender);
-            cardUserAge=(TextView)itemView.findViewById(R.id.card_age);
-            cardUserLocal=(TextView)itemView.findViewById(R.id.card_local);
+            cardUserinfo=(TextView)itemView.findViewById(R.id.card_info);
             cardPostTitle=(TextView)itemView.findViewById(R.id.card_title);
             cardView=(CardView)itemView.findViewById(R.id.card_view);
             cardTimeStamp=(TextView)itemView.findViewById(R.id.card_timestamp);
@@ -258,9 +274,9 @@ public class ProfilePostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                     final UserModel userModel = dataSnapshot.getValue(UserModel.class);
                     nickname.setText(userModel._uNickname);
                     local.setText(userModel._uLocal + " | "+ userModel._uGender + " | "+userModel._uAge);
-                    if(!userModel._uImage1.equals("@null")) {
+                    if(!userModel._profileImage.equals("@null")) {
 
-                        _initProfileImg(imageView,userModel._uImage1,userModel.updateStamp);
+                        _initProfileImg(imageView,userModel._profileImage,userModel._updateStamp);
 
                     }
 
@@ -294,7 +310,7 @@ public class ProfilePostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             @Override
             public void run() {
 
-                mGlideRequestManager.using(new FirebaseImageLoader()).load(storageReference.child(imgPath)).signature(new StringSignature(stamp))
+                mGlideRequestManager.using(new FirebaseImageLoader()).load(storageReference.child(imgPath)).signature(new StringSignature(stamp)).placeholder(R.drawable.ic_action_loading_img)
 
                         .listener(new RequestListener<StorageReference, GlideDrawable>() {
                             @Override

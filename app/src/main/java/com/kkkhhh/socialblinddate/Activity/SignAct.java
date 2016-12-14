@@ -2,12 +2,10 @@ package com.kkkhhh.socialblinddate.Activity;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -41,7 +39,7 @@ public class SignAct extends AppCompatActivity implements View.OnClickListener {
     private DatabaseReference mDatabaseRef= mFirebaseDatabase.getReference().getRoot();
     private ProgressDialog progressDialog;
     private String strCurDate;
-
+    private AlertDialog dialog;
 
 
     @Override
@@ -118,7 +116,8 @@ public class SignAct extends AppCompatActivity implements View.OnClickListener {
         UserModel mUserModel= new UserModel(uID,email,strCurDate);
         mDatabaseRef.child("users").child(uID).setValue(mUserModel);
         //데이터 베이스 SignCheck : 1일 경우 이메일 정보, 2일 경우 프로필정보 ,3일 경우 이미지정보
-        mDatabaseRef.child("users").child(uID).child("check").setValue(1);
+        mDatabaseRef.child("users").child(uID).child("_check").setValue(1);
+        mDatabaseRef.child("users").child(uID).child("_uCoin").setValue(500);
 
     }
 
@@ -161,7 +160,7 @@ public class SignAct extends AppCompatActivity implements View.OnClickListener {
 //dialog 세팅
         AlertDialog.Builder builder= new AlertDialog.Builder(this);
         builder.setView(dialogView);
-        AlertDialog dialog=builder.create();
+        dialog=builder.create();
         dialog.show();
     }
 
@@ -178,11 +177,13 @@ public class SignAct extends AppCompatActivity implements View.OnClickListener {
                     Intent intent= new Intent(SignAct.this,SignProfileAct.class);
                     startActivity(intent);
                     progressDialog.cancel();
+                    dialog.cancel();
                     finish();
                 }else{
                     //실패 할 경우
                     Toast.makeText(SignAct.this,"메일을 확인해주세요.",Toast.LENGTH_SHORT).show();
                     progressDialog.cancel();
+                    dialog.cancel();
                 }
             }
         });

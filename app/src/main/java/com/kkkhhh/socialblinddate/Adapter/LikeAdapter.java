@@ -2,7 +2,6 @@ package com.kkkhhh.socialblinddate.Adapter;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.net.Uri;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -11,11 +10,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestManager;
 import com.bumptech.glide.signature.StringSignature;
 import com.firebase.ui.storage.images.FirebaseImageLoader;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -23,19 +20,16 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-import com.kkkhhh.socialblinddate.Activity.DetailPostAct;
 import com.kkkhhh.socialblinddate.Activity.ProfileActivity;
 import com.kkkhhh.socialblinddate.Etc.CustomBitmapPool;
 import com.kkkhhh.socialblinddate.Etc.TimeMaximum;
 import com.kkkhhh.socialblinddate.Model.LikeModel;
-import com.kkkhhh.socialblinddate.Model.Post;
 import com.kkkhhh.socialblinddate.Model.UserModel;
 import com.kkkhhh.socialblinddate.R;
 
 import java.text.ParseException;
 import java.util.Date;
 import java.util.List;
-import java.util.UUID;
 
 import jp.wasabeef.glide.transformations.CropCircleTransformation;
 
@@ -71,8 +65,8 @@ public class LikeAdapter  extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                     if (dataSnapshot.getValue() != null) {
                         UserModel userModel = dataSnapshot.getValue(UserModel.class);
                         ((LikeHolder) holder).cardText.setText(userModel._uNickname +"님이 하트를 보냈습니다.");
-                        mGlideRequestManager.using(new FirebaseImageLoader()).load(storageReference.child(userModel._uImage1)).placeholder(R.drawable.ic_action_like_white)
-                                .signature(new StringSignature(userModel.updateStamp)).bitmapTransform(new CropCircleTransformation(new CustomBitmapPool())).into(((LikeAdapter.LikeHolder) holder).cardUserImg);
+                        mGlideRequestManager.using(new FirebaseImageLoader()).load(storageReference.child(userModel._profileImage)).placeholder(R.drawable.ic_action_loading_img)
+                                .signature(new StringSignature(userModel._updateStamp)).bitmapTransform(new CropCircleTransformation(new CustomBitmapPool())).into(((LikeAdapter.LikeHolder) holder).cardUserImg);
 
                     }
                 }

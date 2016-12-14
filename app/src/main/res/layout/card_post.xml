@@ -21,12 +21,14 @@
             <ImageView
                 android:id="@+id/card_img"
                 android:layout_width="50dp"
-                android:layout_height="50dp"/>
+                android:layout_height="50dp"
+                android:layout_gravity="center_vertical"/>
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_marginLeft="10dp">
+                android:orientation="horizontal"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="5dp">
                 <TextView
                     android:id="@+id/card_nickname"
                     android:layout_width="wrap_content"
@@ -34,37 +36,15 @@
                     android:textColor="@android:color/black"
                     android:textSize="13dp"/>
 
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="10dp"
-                    android:orientation="horizontal">
-
                     <TextView
-                        android:id="@+id/card_local"
+                        android:id="@+id/card_info"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textColor="@android:color/black"
+                        android:textColor="@color/colorGray"
                         android:textSize="13dp"/>
 
-                    <TextView
-                        android:id="@+id/card_gender"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="@android:color/black"
-                        android:textSize="13dp"
-                        />
 
-                    <TextView
-                        android:id="@+id/card_age"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="15dp"
-                        android:textColor="@android:color/black"
-                        android:textSize="13dp"
-                        />
-                </LinearLayout>
+
             </LinearLayout>
 
         </LinearLayout>

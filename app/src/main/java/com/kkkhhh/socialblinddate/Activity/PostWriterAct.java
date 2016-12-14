@@ -142,7 +142,7 @@ public class PostWriterAct extends AppCompatActivity {
                     userLocal = preferences.getString(UserValue.USER_LOCAL,null);
                     userGender = preferences.getString(UserValue.USER_GENDER,null);
                     userAge = preferences.getString(UserValue.USER_AGE,null);
-                    userProfileImg = preferences.getString(UserValue.USER_IMG1,null);
+                    userProfileImg = preferences.getString(UserValue.USER_PROFILE_IMG,null);
     }
 
     private void _upload(){

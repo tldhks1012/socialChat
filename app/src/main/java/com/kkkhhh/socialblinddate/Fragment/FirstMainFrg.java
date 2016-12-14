@@ -276,7 +276,7 @@ public class FirstMainFrg extends Fragment {
 
                     noPost.setVisibility(View.VISIBLE);
 
-
+                    progressView.setVisibility(View.GONE);
                     recyclerView.setVisibility(View.INVISIBLE);
 
                 } else {
